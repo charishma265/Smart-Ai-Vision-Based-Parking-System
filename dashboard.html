@@ -1,0 +1,227 @@
+<section id="page-dashboard" class="spai-page spai-page-active">
+    <div class="row g-4 align-items-stretch">
+        <!-- Left column: upload + metrics -->
+        <div class="col-12 col-lg-5 d-flex">
+            <div class="spai-card glass flex-grow-1 position-relative overflow-hidden">
+                <div class="spai-card-orbit"></div>
+
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <p class="spai-eyebrow mb-1">Dashboard</p>
+                        <h1 class="spai-title h4 mb-1">
+                            Vision-Based Smart Parking System
+                        </h1>
+                        <p class="spai-subtitle mb-0">
+                            Upload CCTV footage and let SmartParkAI detect occupancy, revenue and dwell time in real time.
+                        </p>
+                    </div>
+                    <div class="text-end">
+                        <span class="badge spai-badge-chip">
+                            <i class="fa-solid fa-camera-cctv me-1"></i>
+                            Computer Vision
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Upload area -->
+                <form method="post" enctype="multipart/form-data" id="uploadForm">
+                    <label for="videoInput" class="spai-upload-area w-100 mb-3">
+                        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                            <div class="d-flex flex-column">
+                                <span class="spai-upload-title mb-1">
+                                    Drag &amp; drop parking video
+                                </span>
+                                <span class="spai-upload-sub">
+                                    or click to browse &middot; typical CCTV or MP4 formats supported.
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column align-items-md-end gap-2">
+                                <input
+                                    class="form-control form-control-sm spai-upload-input"
+                                    type="file"
+                                    name="video"
+                                    id="videoInput"
+                                    accept="video/*"
+                                    required
+                                >
+                                <button type="submit" class="btn spai-btn-primary btn-sm px-3">
+                                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
+                                    Process Video
+                                </button>
+                            </div>
+                        </div>
+                    </label>
+                </form>
+
+                <!-- Video preview -->
+                <div class="mb-3">
+                    <p class="spai-eyebrow mb-2">CCTV Feed Preview</p>
+                    {% if video_filename %}
+                        <video class="spai-video-preview" controls preload="metadata">
+                            <source src="{{ url_for('static', filename='uploads/' + video_filename) }}">
+                        </video>
+                    {% else %}
+                        <video class="spai-video-preview" id="videoPreview" controls style="display:none;"></video>
+                        <div class="spai-muted" id="videoPreviewHint">
+                            Choose a video to preview it here before running the SmartParkAI model.
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Metric cards -->
+                <div class="mt-3">
+                    <p class="spai-eyebrow mb-2">Lot Snapshot</p>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="spai-metric-card">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="spai-metric-label">Total Slots</span>
+                                    <span class="spai-pill spai-pill-blue">Capacity</span>
+                                </div>
+                                <div class="spai-metric-value">
+                                    {{ stats.total_slots|default(0) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="spai-metric-card">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="spai-metric-label">Occupied</span>
+                                    <span class="spai-pill spai-pill-red">In Use</span>
+                                </div>
+                                <div class="spai-metric-value">
+                                    {{ stats.occupied_slots|default(0) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="spai-metric-card">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="spai-metric-label">Available</span>
+                                    <span class="spai-pill spai-pill-green">Free</span>
+                                </div>
+                                <div class="spai-metric-value">
+                                    {{ stats.empty_slots|default(0) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="spai-metric-card">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="spai-metric-label">Revenue</span>
+                                    <span class="spai-pill spai-pill-cyan">₹</span>
+                                </div>
+                                <div class="spai-metric-value">
+                                    ₹{{ stats.total_revenue|default(0) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-3 mt-3">
+                        <div class="spai-chip">
+                            <span class="spai-chip-label">Total Parked Time</span>
+                            <span class="spai-chip-value">
+                                {{ stats.total_parked_time|default(0) }}s
+                            </span>
+                        </div>
+                        <div class="spai-chip">
+                            <span class="spai-chip-label">Average Duration</span>
+                            {% if stats.occupied_slots %}
+                                {% set avg = (stats.total_parked_time // (stats.occupied_slots or 1)) %}
+                                <span class="spai-chip-value">{{ avg }}s / vehicle</span>
+                            {% else %}
+                                <span class="spai-chip-value spai-muted">No vehicles yet</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Right column: live grid + logs + trend -->
+        <div class="col-12 col-lg-7 d-flex flex-column gap-4">
+            <!-- Live parking grid + log -->
+            <div class="row g-4">
+                <div class="col-lg-6 order-lg-2">
+                    <div class="spai-card glass h-100 position-relative overflow-hidden">
+                        <div class="spai-card-orbit spai-card-orbit-green"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <p class="spai-eyebrow mb-1">Live Parking Grid</p>
+                                <h2 class="h6 mb-0">Slot Occupancy Map</h2>
+                            </div>
+                            <span class="badge spai-badge-chip">
+                                <i class="fa-solid fa-grid-2 me-1"></i>
+                                Virtual Layout
+                            </span>
+                        </div>
+                        <div
+                            id="parkingGrid"
+                            class="spai-grid mt-3"
+                            data-total="{{ stats.total_slots|default(9) }}"
+                            data-occupied="{{ stats.occupied_slots|default(0) }}"
+                        >
+                            {% set total = stats.total_slots or 9 %}
+                            {% for i in range(1, total + 1) %}
+                                <div class="spai-grid-cell" data-slot="S{{ i }}">
+                                    <span class="spai-grid-label">S{{ i }}</span>
+                                    <span class="spai-grid-status">Available</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <p class="spai-muted small mt-2 mb-0">
+                            Cells turn <span class="text-success">green</span> when free and <span class="text-danger">red</span> when occupied based on aggregate stats.
+                        </p>
+                        <textarea id="parkingLogsRawGrid" class="d-none">{{ logs }}</textarea>
+                    </div>
+                </div>
+        <div class="col-lg-6 order-lg-1 d-flex">
+    <div class="spai-card glass h-100 d-flex flex-column position-relative overflow-hidden">
+
+        <div class="spai-card-orbit spai-card-orbit-blue"></div>
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+                <p class="spai-eyebrow mb-1">Parking Events</p>
+                <h2 class="h6 mb-0">Log &amp; Billing Summary</h2>
+            </div>
+            <span class="badge spai-badge-chip">
+                <i class="fa-solid fa-receipt me-1"></i>
+                Log Stream
+            </span>
+        </div>
+
+        <!-- THIS PART MAKES IT FULL HEIGHT -->
+        <div class="spai-log-panel flex-grow-1 overflow-auto">
+            {{ logs if logs else "Upload a parking lot video to stream entry, exit and billing events here." }}
+        </div>
+
+    </div>
+</div>
+            </div>
+
+        
+
+                
+
+            <!-- Occupancy trend chart -->
+            <div class="spai-card glass position-relative overflow-hidden">
+                <div class="spai-card-orbit spai-card-orbit-cyan"></div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <p class="spai-eyebrow mb-1">Utilization</p>
+                        <h2 class="h6 mb-0">Occupancy Trend</h2>
+                    </div>
+                    <span class="badge spai-badge-chip">
+                        <i class="fa-solid fa-wave-square me-1"></i>
+                        Chart.js
+                    </span>
+                </div>
+                <div class="spai-chart-wrapper">
+                    <canvas id="occupancyTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

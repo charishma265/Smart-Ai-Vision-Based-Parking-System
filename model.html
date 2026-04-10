@@ -1,0 +1,147 @@
+<section id="page-model" class="spai-page">
+    <div class="row g-4">
+        <div class="col-12 col-xl-4 d-flex">
+            <div class="spai-card glass flex-grow-1 position-relative overflow-hidden">
+                <div class="spai-card-orbit spai-card-orbit-cyan"></div>
+                <p class="spai-eyebrow mb-1">Model Performance</p>
+                <h2 class="spai-title h5 mb-3">
+                    CNN Detection Quality
+                </h2>
+                <p class="spai-subtitle mb-3">
+                    Core metrics from the TensorFlow CNN classifier that distinguishes parked vs empty slots on each ROI.
+                </p>
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="spai-kpi-circle spai-kpi-primary">
+                            <span class="spai-kpi-value">99.34%</span>
+                            <span class="spai-kpi-label">Accuracy</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-kpi-circle spai-kpi-secondary">
+                            <span class="spai-kpi-value">98%</span>
+                            <span class="spai-kpi-label">Precision</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-kpi-circle spai-kpi-tertiary">
+                            <span class="spai-kpi-value">99%</span>
+                            <span class="spai-kpi-label">Recall</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-kpi-circle spai-kpi-quaternary">
+                            <span class="spai-kpi-value">98%</span>
+                            <span class="spai-kpi-label">F1 Score</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <p class="spai-muted small mt-3 mb-0">
+                    Values shown are example benchmarks and can be wired to live training runs or evaluation scripts.
+                </p> -->
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-4 d-flex">
+            <div class="spai-card glass flex-grow-1 position-relative overflow-hidden">
+                <div class="spai-card-orbit spai-card-orbit-blue"></div>
+                <p class="spai-eyebrow mb-1">Confusion Matrix</p>
+                <h2 class="h6 mb-3">Classification Outcomes</h2>
+
+                <div class="spai-confusion-matrix mb-3">
+                    <div class="spai-conf-row spai-conf-header">
+                        <div></div>
+                        <div>Predicted Parked</div>
+                        <div>Predicted Empty</div>
+                    </div>
+                    <div class="spai-conf-row">
+                        <div class="spai-conf-label">Actual Parked</div>
+                        <div class="spai-conf-cell spai-conf-tp">
+                            <span class="spai-conf-title">True Positive</span>
+                            <span class="spai-conf-value">TP - 608</span>
+                        </div>
+                        <div class="spai-conf-cell spai-conf-fn">
+                            <span class="spai-conf-title">False Negative</span>
+                            <span class="spai-conf-value">FN - 0</span>
+                        </div>
+                    </div>
+                    <div class="spai-conf-row">
+                        <div class="spai-conf-label">Actual Empty</div>
+                        <div class="spai-conf-cell spai-conf-fp">
+                            <span class="spai-conf-title">False Positive</span>
+                            <span class="spai-conf-value">FP - 8</span>
+                        </div>
+                        <div class="spai-conf-cell spai-conf-tn">
+                            <span class="spai-conf-title">True Negative</span>
+                            <span class="spai-conf-value">TN - 601</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <p class="spai-muted small mb-0">
+                    Use this as a visual to debug misclassifications and decide when to re-train or fine-tune the parking detector.
+                </p> -->
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-4 d-flex">
+            <div class="spai-card glass flex-grow-1 position-relative overflow-hidden">
+                <div class="spai-card-orbit spai-card-orbit-green"></div>
+                <p class="spai-eyebrow mb-1">Training Summary</p>
+                <h2 class="h6 mb-3">Experiment Configuration</h2>
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="spai-summary-item">
+                            <span class="spai-summary-label">Epochs</span>
+                            <span class="spai-summary-value">5</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-summary-item">
+                            <span class="spai-summary-label">Batch Size</span>
+                            <span class="spai-summary-value">32</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-summary-item">
+                            <span class="spai-summary-label">Optimizer</span>
+                            <span class="spai-summary-value">Adam</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-summary-item">
+                            <span class="spai-summary-label">Learning Rate</span>
+                            <span class="spai-summary-value">1e-3</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-summary-item">
+                            <span class="spai-summary-label">Training Samples</span>
+                            <span class="spai-summary-value">4872</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-summary-item">
+                            <span class="spai-summary-label">Validation Samples</span>
+                            <span class="spai-summary-value">1218</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="spai-summary-item">
+                            <span class="spai-summary-label">Training Time</span>
+                            <span class="spai-summary-value">~12 min on CPU</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <p class="spai-muted small mt-3 mb-0">
+                    Replace these with values from your training pipeline (TensorBoard, MLFlow, etc.) to keep track of parking model experiments.
+                </p> -->
+            </div>
+        </div>
+    </div>
+</section>
+

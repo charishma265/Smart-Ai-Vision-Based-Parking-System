@@ -1,0 +1,103 @@
+<section id="page-about" class="spai-page">
+    <div class="row g-4">
+        <div class="col-12 col-lg-7 d-flex">
+            <div class="spai-card glass flex-grow-1 position-relative overflow-hidden">
+                <div class="spai-card-orbit spai-card-orbit-blue"></div>
+                <p class="spai-eyebrow mb-1">About Project</p>
+                <h2 class="spai-title h5 mb-3">
+                    SmartParkAI &mdash; Vision Intelligence for Smart Cities
+                </h2>
+                <p class="spai-body-text">
+                    SmartParkAI is a vision-based smart parking system that transforms raw CCTV video into
+                    actionable analytics for operators and city planners. By combining a TensorFlow CNN model
+                    with OpenCV-based region-of-interest (ROI) extraction, the system can detect individual
+                    parking slots and classify them as <strong>parked</strong> or <strong>empty</strong> in near
+                    real-time.
+                </p>
+                <p class="spai-body-text">
+                    The backend is built on <strong>Flask</strong> and orchestrates video ingestion, ROI
+                    sampling, model inference, parking state tracking, and billing computation. The CNN model is
+                    trained to understand the visual patterns of occupied versus free bays, while OpenCV handles
+                    low-level video processing and grid-based slot segmentation.
+                </p>
+                <p class="spai-body-text">
+                    On top of this, the dashboard exposes occupancy trends, revenue curves, and granular parking
+                    events to give a control-center view of the parking lot. This makes SmartParkAI suitable for
+                    smart campuses, malls, transit hubs, and city-scale parking orchestration.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-5 d-flex">
+            <div class="spai-card glass flex-grow-1 position-relative overflow-hidden">
+                <div class="spai-card-orbit spai-card-orbit-cyan"></div>
+                <p class="spai-eyebrow mb-2">Technology Stack</p>
+
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="spai-tech-card">
+                            <div class="spai-tech-icon">
+                                <i class="fa-brands fa-python"></i>
+                            </div>
+                            <div class="spai-tech-label">Python</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-tech-card">
+                            <div class="spai-tech-icon">
+                                <i class="fa-solid fa-flask-vial"></i>
+                            </div>
+                            <div class="spai-tech-label">Flask</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-tech-card">
+                            <div class="spai-tech-icon">
+                                <i class="fa-solid fa-camera"></i>
+                            </div>
+                            <div class="spai-tech-label">OpenCV</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-tech-card">
+                            <div class="spai-tech-icon">
+                                <i class="fa-solid fa-brain"></i>
+                            </div>
+                            <div class="spai-tech-label">TensorFlow CNN</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-tech-card">
+                            <div class="spai-tech-icon">
+                                <i class="fa-solid fa-square-root-variable"></i>
+                            </div>
+                            <div class="spai-tech-label">NumPy</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-tech-card">
+                            <div class="spai-tech-icon">
+                                <i class="fa-brands fa-js"></i>
+                            </div>
+                            <div class="spai-tech-label">JavaScript</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="spai-tech-card">
+                            <div class="spai-tech-icon">
+                                <i class="fa-brands fa-bootstrap"></i>
+                            </div>
+                            <div class="spai-tech-label">Bootstrap</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="spai-muted small mt-3 mb-0">
+                    Extend this stack with orchestration tools, cloud storage and MLOps to evolve SmartParkAI into
+                    a full production-ready smart parking platform.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+

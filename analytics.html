@@ -1,0 +1,98 @@
+<section id="page-analytics" class="spai-page">
+    <div class="row g-4">
+        <!-- Weekly revenue chart -->
+        <div class="col-12 col-xl-6 d-flex">
+            <div class="spai-card glass flex-grow-1 position-relative overflow-hidden">
+                <div class="spai-card-orbit spai-card-orbit-cyan"></div>
+                <p class="spai-eyebrow mb-1">Revenue</p>
+                <h2 class="h6 mb-2">Weekly Revenue from Parking</h2>
+                <p class="spai-subtitle mb-3">
+                    Visualize monetization of parking bays across the week. Tie this to real billing logs for smart-city dashboards.
+                </p>
+                <div class="spai-chart-wrapper">
+                    <canvas id="weeklyRevenueChart"></canvas>
+                </div>
+                <p class="spai-muted small mt-2 mb-0">
+                    Current video session revenue: <strong>₹{{ stats.total_revenue|default(0) }}</strong>.
+                </p>
+            </div>
+        </div>
+
+        <!-- ROI detection grid -->
+        <div class="col-12 col-xl-6 d-flex">
+            <div class="spai-card glass flex-grow-1 position-relative overflow-hidden">
+                <div class="spai-card-orbit spai-card-orbit-blue"></div>
+                <p class="spai-eyebrow mb-1">ROI Detection Grid</p>
+                <h2 class="h6 mb-2">Detected Parking Slots</h2>
+                <p class="spai-subtitle mb-3">
+                    Each Region of Interest (ROI) corresponds to a potential parking slot extracted from the CCTV grid using OpenCV.
+                </p>
+
+                {% if roi_files %}
+                    <div class="spai-roi-grid">
+                        {% for img in roi_files %}
+                            <div class="spai-roi-item">
+                                <img
+                                    src="{{ url_for('static', filename='rois/' + img) }}"
+                                    alt="Parking ROI"
+                                    loading="lazy"
+                                >
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="spai-empty-state">
+                        <i class="fa-solid fa-object-group mb-2"></i>
+                        <p class="mb-1">No ROI snapshots yet.</p>
+                        <p class="spai-muted mb-0">
+                            Process a video and SmartParkAI will populate this grid with detected parking slots.
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-1">
+        <!-- Parking event log table -->
+        <div class="col-12">
+            <div class="spai-card glass position-relative overflow-hidden">
+                <div class="spai-card-orbit spai-card-orbit-green"></div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <p class="spai-eyebrow mb-1">Event Stream</p>
+                        <h2 class="h6 mb-0">Parking Event Log</h2>
+                    </div>
+                    <span class="badge spai-badge-chip">
+                        <i class="fa-solid fa-table-list me-1"></i>
+                        Time Series
+                    </span>
+                </div>
+
+                <div class="table-responsive spai-table-wrapper">
+                    <table class="table table-sm align-middle spai-table mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Slot</th>
+                                <th scope="col">Event</th>
+                                <th scope="col">Time</th>
+                                <!-- <th scope="col">Vehicle</th> -->
+                                <th scope="col">Duration</th>
+                                <th scope="col" class="text-end">Billing</th>
+                            </tr>
+                        </thead>
+                        <tbody id="parkingEventTableBody">
+                            <!-- Filled from logs by charts.js -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <textarea id="parkingLogsRaw" class="d-none">{{ logs }}</textarea>
+                <p class="spai-muted small mt-2 mb-0">
+                    Parsed from the same logs powering the dashboard on the main screen. Adjust the parsing logic as you evolve the log format.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
